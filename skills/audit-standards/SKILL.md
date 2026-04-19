@@ -107,7 +107,16 @@ Check:
 
 ## Step 3: Generate GitHub issues
 
-For each distinct finding, create a GitHub issue:
+First, fetch all open issues to avoid creating duplicates:
+
+```bash
+gh issue list --state open --limit 100 --json title --jq '.[].title'
+```
+
+For each finding, check whether an open issue with a matching title already exists. If one does,
+skip it. Only create an issue if no existing open issue covers the same finding.
+
+For each distinct finding with no existing open issue, create a GitHub issue:
 
 ```bash
 gh issue create \
