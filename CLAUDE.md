@@ -7,7 +7,7 @@ Live at <https://github.com/ali5ter/claude-workflow-skills>. Installable via the
 
 ## Purpose
 
-`ali5ter/claude-workflow-skills` is a Claude Code plugin that provides three common workflow
+`ali5ter/claude-workflow-skills` is a Claude Code plugin that provides common workflow
 skills for use in any Claude Code session:
 
 | Skill | Invoke | Purpose |
@@ -15,6 +15,7 @@ skills for use in any Claude Code session:
 | `promote` | `/promote` | Full release workflow: commit → push → PR → tag → release → clean up |
 | `audit-plugin` | `/audit-plugin` | Deep review of a Claude Code plugin/skill/agent against best practices |
 | `audit-standards` | `/audit-standards` | Audit project against dev standards in `~/.claude/CLAUDE.md` |
+| `improve` | `/improve` | Analyse project for bugs, features, docs, security, competitive landscape, and monetisation |
 
 ## Architecture
 
@@ -30,8 +31,10 @@ claude-workflow-skills/
 │   │   └── SKILL.md       # Release workflow skill
 │   ├── audit-plugin/
 │   │   └── SKILL.md       # Plugin/skill/agent audit skill
-│   └── audit-standards/
-│       └── SKILL.md       # Standards compliance audit skill
+│   ├── audit-standards/
+│   │   └── SKILL.md       # Standards compliance audit skill
+│   └── improve/
+│       └── SKILL.md       # Multi-angle project improvement analysis skill
 ├── CLAUDE.md              # This file
 ├── README.md              # User-facing documentation
 ├── LICENSE                # MIT
@@ -77,8 +80,14 @@ operates on accurate current context without requiring an extra read step.
 - Added to `ali5ter/claude-plugins` marketplace
 - Replaces the three legacy `.claude/commands/` files in `ali5ter/carrybag-lite`
 
+**v1.1.0 — In progress:**
+
+- `improve` skill: multi-angle project analysis covering code quality, feature gaps,
+  documentation, security, competitive landscape, and monetisation opportunities
+
 ## Next Steps
 
+- Release v1.1.0 after validating `/improve` in real use
 - Gather real-world usage feedback
 - Watch for Claude Code plugin framework updates (especially `allowed-tools` scoping syntax)
-- Consider additional workflow skills (e.g., `review-pr`, `triage-issues`)
+- Consider additional workflow skills (e.g., `review-pr`)

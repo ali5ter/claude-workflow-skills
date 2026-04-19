@@ -11,6 +11,7 @@ Claude Code session.
 | `promote` | `/promote` | Full release workflow: commit, push, PR, semver tag, GitHub release, branch cleanup |
 | `audit-plugin` | `/audit-plugin` | Deep review of a Claude Code plugin/skill/agent against official best practices |
 | `audit-standards` | `/audit-standards` | Audit project against personal dev standards in `~/.claude/CLAUDE.md` |
+| `improve` | `/improve` | Analyse project for bugs, feature gaps, docs, security, competitive opportunities, and monetisation — file as GitHub issues |
 
 ## Installation
 
@@ -40,6 +41,7 @@ Each skill is invoked with its `/` prefix from any Claude Code session:
 /promote
 /audit-plugin
 /audit-standards
+/improve
 ```
 
 Skills can also trigger automatically when Claude Code detects a matching intent in the
@@ -83,6 +85,19 @@ Audits the current project against the seven development principles in `~/.claud
 - Version Control Everything
 
 Creates GitHub issues for non-compliance and writes a prioritised fix plan to `CLAUDE.md`.
+
+### `/improve`
+
+Analyses the current project from multiple angles and files GitHub issues for every finding:
+
+- Code quality and bugs — logic errors, anti-patterns, fragile assumptions
+- Feature completeness — gaps relative to the project's stated purpose
+- Documentation — missing, outdated, or misleading content
+- Security — injection risks, exposed secrets, over-permissioned scopes
+- Competitive landscape — what similar tools offer that this project doesn't
+- Monetisation — sponsorship, premium tiers, marketplace listings, companion products
+
+Produces a prioritised summary table with top issues and highest-leverage opportunities.
 
 ## Architecture
 
