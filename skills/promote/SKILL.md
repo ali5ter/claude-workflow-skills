@@ -46,31 +46,46 @@ Skip this step if already on `main` (or the repo's default branch).
 
 If on a feature branch:
 
-1. Create a PR targeting main:
+1. Scan commits since the last tag for issue references:
+
+   ```bash
+   git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD --format="%B"
+   ```
+
+   Look for `Closes #N`, `Fixes #N`, `Resolves #N` (case-insensitive). Collect all issue numbers
+   found. If none are found, ask: "Are there any GitHub issues this change resolves? (e.g. #12,
+   #15 — or press enter to skip)"
+
+2. Create a PR targeting main, including closing keywords in the body so GitHub closes the issues
+   automatically on merge:
 
    ```bash
    gh pr create --title "<type>: <summary>" --body "$(cat <<'EOF'
    ## Summary
    <bullet points from commits>
 
+   Closes #N, Closes #N
+
    🤖 Generated with [Claude Code](https://claude.com/claude-code)
    EOF
    )"
    ```
 
-2. Enable auto-merge (squash preferred):
+   Omit the `Closes` lines if no issues were identified.
+
+3. Enable auto-merge (squash preferred):
 
    ```bash
    gh pr merge --auto --squash
    ```
 
-3. Poll until merged:
+4. Poll until merged:
 
    ```bash
    gh pr view --json state --jq '.state'
    ```
 
-4. Switch to main and pull:
+5. Switch to main and pull:
 
    ```bash
    git checkout main && git pull
@@ -98,7 +113,18 @@ gh release create v<next-version> \
   --title "v<next-version>"
 ```
 
-## Step 6: Clean up merged feature branch
+## Step 6: Close resolved issues (main branch only)
+
+Skip this step if a PR was created in Step 3 — GitHub will close the issues automatically when
+the PR merges via the `Closes #N` keywords in the PR body.
+
+If the promotion was directly on `main` (no PR), close any identified issues now:
+
+```bash
+gh issue close <N> --comment "Resolved in $(gh release view v<next-version> --json url --jq '.url')"
+```
+
+## Step 7: Clean up merged feature branch
 
 If a feature branch was merged in Step 3, delete it locally and remotely:
 
@@ -107,7 +133,7 @@ git branch -d <feature-branch>
 git push origin --delete <feature-branch>
 ```
 
-## Step 7: Confirm clean state
+## Step 8: Confirm clean state
 
 ```bash
 git status
