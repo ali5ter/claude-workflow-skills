@@ -1,0 +1,11 @@
+{
+  "name": "claude-workflow-skills",
+  "version": "1.0.0",
+  "description": "Common workflow skills for Claude Code sessions: promote changes through the full release cycle, audit Claude Code plugins/skills/agents, and audit project standards compliance",
+  "author": { "name": "Alister Lewis-Bowen", "url": "https://github.com/ali5ter" },
+  "homepage": "https://github.com/ali5ter/claude-workflow-skills",
+  "repository": "https://github.com/ali5ter/claude-workflow-skills",
+  "license": "MIT",
+  "keywords": ["workflow", "promote", "release", "audit", "standards", "git"],
+  "minVersion": "2.0.0"
+}
