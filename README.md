@@ -99,6 +99,19 @@ Analyses the current project from multiple angles and files GitHub issues for ev
 
 Produces a prioritised summary table with top issues and highest-leverage opportunities.
 
+## Configuration
+
+The `weekly-audit` GitHub Actions workflow requires two secrets configured under
+**Settings → Secrets → Actions** in this repository:
+
+| Secret | Description |
+|---|---|
+| `ANTHROPIC_API_KEY` | Anthropic API key for Claude |
+| `GH_AUDIT_TOKEN` | GitHub fine-grained PAT with `issues:write` on all audited repos |
+
+To generate a fine-grained PAT: GitHub → Settings → Developer settings → Personal access tokens →
+Fine-grained tokens → New token. Grant **Issues: Read and write** on each repo to be audited.
+
 ## Architecture
 
 Skills are defined in `skills/<name>/SKILL.md` with YAML frontmatter. The `promote` skill uses

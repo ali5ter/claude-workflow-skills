@@ -1,0 +1,87 @@
+# Weekly Standards Audit
+#
+# Audits configured repositories against the development standards defined in
+# https://raw.githubusercontent.com/ali5ter/carrybag-lite/refs/heads/main/claude/CLAUDE.md
+# and files GitHub issues for any findings.
+#
+# Required secrets (Settings → Secrets → Actions):
+#   ANTHROPIC_API_KEY  — Anthropic API key for Claude
+#   GH_AUDIT_TOKEN     — GitHub fine-grained PAT with issues:write on all audited repos
+#
+# The audit procedure is defined in ./skills/audit-standards/SKILL.md.
+# Update that file to change audit behaviour; no changes needed here.
+
+name: Weekly Standards Audit
+
+on:
+  schedule:
+    - cron: "55 9 * * 0" # Sunday 5:55am ET (9:55am UTC)
+  workflow_dispatch: # allow manual trigger from Actions tab
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check required secrets
+        run: |
+          [[ -n "$ANTHROPIC_API_KEY" ]] || {
+            echo "ERROR: ANTHROPIC_API_KEY secret not configured."
+            echo "Add it under Settings → Secrets → Actions."
+            exit 1
+          }
+          [[ -n "$GH_TOKEN" ]] || {
+            echo "ERROR: GH_AUDIT_TOKEN secret not configured."
+            echo "Add a fine-grained PAT with issues:write on all audited repos"
+            echo "under Settings → Secrets → Actions as GH_AUDIT_TOKEN."
+            exit 1
+          }
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GH_AUDIT_TOKEN }}
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run standards audit
+        # --dangerously-skip-permissions is safe here: this is an ephemeral,
+        # isolated GitHub Actions runner with no access to local credentials.
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GH_AUDIT_TOKEN }}
+        run: |
+          claude -p "$(cat <<'EOF'
+          ## Standards Reference
+
+          Fetch and read the development standards from:
+          https://raw.githubusercontent.com/ali5ter/carrybag-lite/refs/heads/main/claude/CLAUDE.md
+
+          ## Audit Procedure
+
+          Read the full audit procedure from: ./skills/audit-standards/SKILL.md
+
+          ## Repos to Audit
+
+          Apply the procedure to each of these repos in turn:
+          1. ali5ter/carrybag-lite
+          2. ali5ter/obsidian-project-assistant
+          3. ali5ter/claude-workflow-skills
+          4. ali5ter/claude-plugins
+          5. ali5ter/different-site
+          6. ali5ter/command-line-user-site
+
+          For each repo: clone it under /tmp/, run the full audit, and create GitHub
+          issues for each finding. gh is pre-installed and authenticated via GH_TOKEN.
+
+          Important:
+          - Skip the CLAUDE.md commit/push step in the skill (git push is not the goal here)
+          - Check for existing open issues before creating new ones to avoid duplicates
+
+          After all repos, output a summary table of issues created.
+          EOF
+          )" \
+          --allowedTools "Bash,Read,Glob,Grep" \
+          --dangerously-skip-permissions

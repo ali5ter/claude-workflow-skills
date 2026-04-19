@@ -80,10 +80,11 @@ operates on accurate current context without requiring an extra read step.
 - Added to `ali5ter/claude-plugins` marketplace
 - Replaces the three legacy `.claude/commands/` files in `ali5ter/carrybag-lite`
 
-**v1.1.0 — In progress:**
+**v1.2.0 — In progress:**
 
-- `improve` skill: multi-angle project analysis covering code quality, feature gaps,
-  documentation, security, competitive landscape, and monetisation opportunities
+- GitHub Actions workflow (`weekly-audit.yml`) replacing CCR schedule for standards audit
+- Uses `ANTHROPIC_API_KEY` + `GH_AUDIT_TOKEN` secrets; references SKILL.md directly
+- `promote` skill: auto-closes related GitHub issues on merge via `Closes #N` in PR body
 
 ## Next Steps
 
