@@ -26,6 +26,9 @@ in `.claude-plugin/plugin.json` and distributed via the `ali5ter/claude-plugins`
 claude-workflow-skills/
 ├── .claude-plugin/
 │   └── plugin.json        # Plugin manifest (name, version, description)
+├── .github/
+│   └── workflows/
+│       └── weekly-audit.yml  # GitHub Actions weekly standards audit (Sundays 5:55am ET)
 ├── skills/
 │   ├── promote/
 │   │   └── SKILL.md       # Release workflow skill
@@ -91,6 +94,15 @@ Rules of thumb:
 
 ## Current Status
 
+**v1.2.3 — Current (2026-04-20):**
+
+- `improve` skill: multi-angle analysis across 6 dimensions (code, features, docs, security, competitive, monetisation)
+- `audit-standards`: deduplication check prevents re-filing existing open issues on repeated runs
+- `promote`: auto-closes GitHub issues via `Closes #N`; `git add -u` instead of `git add -A` to avoid staging secrets
+- GitHub Actions `weekly-audit.yml`: runs every Sunday 5:55am ET, filed 59 issues across 6 repos on first run
+- `gh auth` pre-flight check (Step 0) added to all four skills
+- Non-interactive `[ -t 0 ]` pattern applied throughout; documented in this file
+
 **v1.0.0 — Initial release (2026-04-19):**
 
 - `promote` skill: full release workflow with shell injection for live git context
@@ -99,15 +111,11 @@ Rules of thumb:
 - Added to `ali5ter/claude-plugins` marketplace
 - Replaces the three legacy `.claude/commands/` files in `ali5ter/carrybag-lite`
 
-**v1.2.0 — In progress:**
-
-- GitHub Actions workflow (`weekly-audit.yml`) replacing CCR schedule for standards audit
-- Uses `ANTHROPIC_API_KEY` + `GH_AUDIT_TOKEN` secrets; references SKILL.md directly
-- `promote` skill: auto-closes related GitHub issues on merge via `Closes #N` in PR body
-
 ## Next Steps
 
-- Release v1.1.0 after validating `/improve` in real use
-- Gather real-world usage feedback
+- Add `contents:read` to `GH_AUDIT_TOKEN` for private repos to enable file-level audit
+- Work through the 59 issues filed across 6 audited repos
+- Consider `/review-pr` skill (closes the release lifecycle loop) — issue #4
+- `/setup-schedules` skill deferred — issue #7
+- GitHub Sponsors + ccpi packaging — issue #6
 - Watch for Claude Code plugin framework updates (especially `allowed-tools` scoping syntax)
-- Consider additional workflow skills (e.g., `review-pr`)
