@@ -56,6 +56,25 @@ The `promote` skill uses `` !`command` `` blocks to inject live git state (branc
 last tag, recent commits) before Claude processes the instructions. This ensures the skill
 operates on accurate current context without requiring an extra read step.
 
+### Interactive vs non-interactive skills
+
+Skills may be invoked interactively (human at a terminal) or non-interactively (GitHub Actions,
+CCR scheduled triggers). Skills that prompt for input must handle both:
+
+```bash
+if [ -t 0 ]; then
+  read -p "Question? " answer   # interactive — prompt the user
+else
+  answer="safe-default"          # non-interactive — apply a safe default or hard stop
+fi
+```
+
+Rules of thumb:
+
+- **Hard stop** if proceeding without input would be dangerous (e.g. staging secrets)
+- **Skip gracefully** if the prompt is optional context (e.g. issue numbers to close)
+- Never leave a skill blocked waiting for input that will never arrive
+
 ### Skill body guidelines
 
 - Steps are numbered and actionable

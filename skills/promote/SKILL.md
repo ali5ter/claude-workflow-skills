@@ -33,7 +33,19 @@ git status --short | grep -E '^\?\? .*\.env' && echo "WARNING: untracked .env fi
 cat .gitignore 2>/dev/null | grep -q '\.env' || echo "WARNING: .gitignore does not exclude .env files"
 ```
 
-If any `.env` files would be staged, pause and confirm with the user before proceeding.
+If any `.env` files would be staged:
+
+```bash
+if [ -t 0 ]; then
+  # Interactive — ask for confirmation before continuing
+  read -p "WARNING: .env files detected. Continue? (y/N) " confirm
+  [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
+else
+  # Non-interactive — hard stop; too risky to proceed without human review
+  echo "ERROR: untracked .env files detected in non-interactive mode. Aborting."
+  exit 1
+fi
+```
 
 ## Step 1: Commit any uncommitted changes
 
@@ -69,8 +81,17 @@ If on a feature branch:
    ```
 
    Look for `Closes #N`, `Fixes #N`, `Resolves #N` (case-insensitive). Collect all issue numbers
-   found. If none are found, ask: "Are there any GitHub issues this change resolves? (e.g. #12,
-   #15 — or press enter to skip)"
+   found. If none are found:
+
+   ```bash
+   if [ -t 0 ]; then
+     # Interactive — ask the user
+     read -p "Any GitHub issues this resolves? (e.g. 12 15 — or enter to skip) " issues
+   else
+     # Non-interactive — skip silently
+     issues=""
+   fi
+   ```
 
 2. Create a PR targeting main, including closing keywords in the body so GitHub closes the issues
    automatically on merge:
