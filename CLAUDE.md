@@ -16,6 +16,7 @@ skills for use in any Claude Code session:
 | `audit-plugin` | `/audit-plugin` | Deep review of a Claude Code plugin/skill/agent against best practices |
 | `audit-standards` | `/audit-standards` | Audit project against dev standards in `~/.claude/CLAUDE.md` |
 | `improve` | `/improve` | Analyse project for bugs, features, docs, security, competitive landscape, and monetisation |
+| `triage` | `/triage` | Validate all open issues, close invalid ones, flag complex ones for planning, fix and promote the rest |
 
 ## Architecture
 
@@ -36,8 +37,10 @@ claude-workflow-skills/
 │   │   └── SKILL.md       # Plugin/skill/agent audit skill
 │   ├── audit-standards/
 │   │   └── SKILL.md       # Standards compliance audit skill
-│   └── improve/
-│       └── SKILL.md       # Multi-angle project improvement analysis skill
+│   ├── improve/
+│   │   └── SKILL.md       # Multi-angle project improvement analysis skill
+│   └── triage/
+│       └── SKILL.md       # Issue triage: validate, close invalid, flag complex, fix and promote
 ├── CLAUDE.md              # This file
 ├── README.md              # User-facing documentation
 ├── LICENSE                # MIT
@@ -94,7 +97,12 @@ Rules of thumb:
 
 ## Current Status
 
-**v1.2.3 — Current (2026-04-20):**
+**v1.3.0 — Current (2026-04-20):**
+
+- `triage` skill: validate all open issues, close invalid ones with documentation, surface
+  complex ones for planning discussion, fix actionable ones, and run `/promote`
+
+**v1.2.3 — (2026-04-20):**
 
 - `improve` skill: multi-angle analysis across 6 dimensions (code, features, docs, security, competitive, monetisation)
 - `audit-standards`: deduplication check prevents re-filing existing open issues on repeated runs
