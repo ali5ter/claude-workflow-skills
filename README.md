@@ -12,6 +12,7 @@ Claude Code session.
 | `audit-plugin` | `/audit-plugin` | Deep review of a Claude Code plugin/skill/agent against official best practices |
 | `audit-standards` | `/audit-standards` | Audit project against personal dev standards in `~/.claude/CLAUDE.md` |
 | `improve` | `/improve` | Analyse project for bugs, feature gaps, docs, security, competitive opportunities, and monetisation — file as GitHub issues |
+| `triage` | `/triage` | Validate all open issues, close invalid ones, flag complex ones for planning, fix and promote the rest |
 
 ## Installation
 
@@ -53,6 +54,7 @@ conversation:
 | `/audit-plugin` | "audit this plugin", "review this skill", "check this agent" |
 | `/audit-standards` | "audit standards", "check standards compliance", "audit against settings" |
 | `/improve` | "improve this", "analyse this project", "find improvements", "fill the backlog" |
+| `/triage` | "triage issues", "validate issues", "fix issues", "work through the backlog" |
 
 ## Skill details
 
@@ -109,6 +111,19 @@ Produces a prioritised summary table with top issues and highest-leverage opport
 > `WebFetch` permissions. In restricted permission mode, approve these when prompted or those
 > steps will be skipped.
 
+### `/triage`
+
+Works through every open GitHub issue and resolves them:
+
+1. Fetches and classifies all open issues as invalid, complex, or actionable
+2. Closes invalid issues with a documented comment explaining why
+3. Surfaces complex issues for planning discussion before proceeding
+4. Fixes each actionable issue with a minimal, scoped change
+5. Runs `/promote` to commit, tag, and release
+
+In non-interactive mode (e.g. GitHub Actions), stops after surfacing complex issues rather
+than waiting for input.
+
 ## Configuration
 
 The `weekly-audit` GitHub Actions workflow requires two secrets configured under
@@ -127,6 +142,10 @@ Fine-grained tokens → New token. Grant **Issues: Read and write** on each repo
 Skills are defined in `skills/<name>/SKILL.md` with YAML frontmatter. The `promote` skill uses
 shell command injection (`` !`command` ``) to inject live git state before Claude processes the
 instructions, giving it accurate context about the current branch, last tag, and recent commits.
+
+## Support
+
+If these skills save you time, consider [sponsoring on GitHub](https://github.com/sponsors/ali5ter).
 
 ## License
 
