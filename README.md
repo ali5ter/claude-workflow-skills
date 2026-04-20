@@ -45,8 +45,14 @@ Each skill is invoked with its `/` prefix from any Claude Code session:
 ```
 
 Skills can also trigger automatically when Claude Code detects a matching intent in the
-conversation — for example, saying "ship this" or "get back to main" may invoke `/promote`
-without an explicit slash command.
+conversation:
+
+| Skill | Example trigger phrases |
+|---|---|
+| `/promote` | "ship this", "release", "get back to main", "tag and release" |
+| `/audit-plugin` | "audit this plugin", "review this skill", "check this agent" |
+| `/audit-standards` | "audit standards", "check standards compliance", "audit against settings" |
+| `/improve` | "improve this", "analyse this project", "find improvements", "fill the backlog" |
 
 ## Skill details
 
@@ -98,6 +104,10 @@ Analyses the current project from multiple angles and files GitHub issues for ev
 - Monetisation — sponsorship, premium tiers, marketplace listings, companion products
 
 Produces a prioritised summary table with top issues and highest-leverage opportunities.
+
+> **Note:** Steps 6 and 7 (competitive landscape and monetisation) require `WebSearch` and
+> `WebFetch` permissions. In restricted permission mode, approve these when prompted or those
+> steps will be skipped.
 
 ## Configuration
 

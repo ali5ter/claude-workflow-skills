@@ -10,6 +10,12 @@ Reviews the Claude Code addon in the current project (plugin, skill, sub-agent, 
 against official Claude Code best practices. Generates actionable GitHub issues and a prioritised
 fix plan.
 
+## Step 0: Pre-flight check
+
+```bash
+gh auth status 2>&1 || { echo "ERROR: gh is not authenticated. Run: gh auth login"; exit 1; }
+```
+
 ## Step 1: Identify what kind of addon this project defines
 
 Scan for known Claude Code addon files:

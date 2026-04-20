@@ -6,8 +6,19 @@ allowed-tools: Read Glob Grep Bash WebSearch WebFetch
 
 # Improve
 
+Project: !`basename $(git rev-parse --show-toplevel 2>/dev/null) 2>/dev/null || basename $PWD`
+Open issues: !`gh issue list --state open --json number --jq 'length' 2>/dev/null || echo "unknown"`
+Last tag: !`git describe --tags --abbrev=0 2>/dev/null || echo "none"`
+Recent commits: !`git log --oneline -5 2>/dev/null || echo "none"`
+
 Analyses the current project from multiple angles — technical, strategic, and commercial —
 then files actionable GitHub issues for every finding.
+
+## Step 0: Pre-flight check
+
+```bash
+gh auth status 2>&1 || { echo "ERROR: gh is not authenticated. Run: gh auth login"; exit 1; }
+```
 
 ## Step 1: Understand the project
 

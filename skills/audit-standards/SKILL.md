@@ -20,6 +20,12 @@ The key principles to audit against are:
 6. **Fail Fast, Pivot Early** — (process principle, skip for static audit)
 7. **Behavioral Integrity** — (process principle, skip for static audit)
 
+## Step 0: Pre-flight check
+
+```bash
+gh auth status 2>&1 || { echo "ERROR: gh is not authenticated. Run: gh auth login"; exit 1; }
+```
+
 ## Step 1: Inventory the project
 
 ```bash

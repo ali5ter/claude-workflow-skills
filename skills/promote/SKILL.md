@@ -20,12 +20,28 @@ Recent commits since last tag:
 !`git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD --oneline 2>/dev/null || git log --oneline -10`
 ```
 
+## Step 0: Pre-flight checks
+
+```bash
+gh auth status 2>&1 || { echo "ERROR: gh is not authenticated. Run: gh auth login"; exit 1; }
+```
+
+Check for untracked `.env` files that could be accidentally staged:
+
+```bash
+git status --short | grep -E '^\?\? .*\.env' && echo "WARNING: untracked .env files detected — review before staging"
+cat .gitignore 2>/dev/null | grep -q '\.env' || echo "WARNING: .gitignore does not exclude .env files"
+```
+
+If any `.env` files would be staged, pause and confirm with the user before proceeding.
+
 ## Step 1: Commit any uncommitted changes
 
 If the git status above shows uncommitted or untracked changes:
 
 1. Review the diff: `git diff` and `git diff --cached`
-2. Stage all relevant changes: `git add -A`
+2. Stage changes selectively — prefer tracked files: `git add -u`, then review and add any
+   intentional new files individually. Avoid `git add -A` unless the user explicitly confirms.
 3. Draft a conventional commit message from the changes — lead with a type prefix
    (`feat:`, `fix:`, `docs:`, `chore:`, etc.) and a concise summary
 4. Commit using a heredoc so multi-line messages format correctly
