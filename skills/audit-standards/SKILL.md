@@ -9,7 +9,7 @@ allowed-tools: Read Glob Grep Bash
 Audits the current project against the personal development standards loaded from `~/.claude/CLAUDE.md`.
 Generates actionable GitHub issues and a prioritised fix plan.
 
-Your development standards are already loaded in your context as the user's global `CLAUDE.md`.
+The development standards from the user's global `~/.claude/CLAUDE.md` are already loaded into context.
 The key principles to audit against are:
 
 1. **Codify, Don't Document** — manual steps should be executable scripts
