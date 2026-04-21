@@ -76,7 +76,7 @@ Use `--reason "completed"` if the issue was already resolved in code.
 
 ## Step 4: Surface complex issues for planning
 
-Stop and present complex issues to Alister before proceeding. Format clearly:
+Stop and present complex issues to the user before proceeding. Format clearly:
 
 ---
 
@@ -91,7 +91,7 @@ For each complex issue:
 
 ---
 
-Wait for Alister's direction on each complex issue before moving to Step 5.
+Wait for the user's direction on each complex issue before moving to Step 5.
 If running non-interactively (no terminal), stop here and output the complex issues report.
 
 ```bash
