@@ -17,7 +17,7 @@ Last tag: !`git describe --tags --abbrev=0 2>/dev/null || echo "none"`
 Recent commits since last tag:
 
 ```text
-!`git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD --oneline 2>/dev/null || git log --oneline -10`
+!`git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD --oneline -10 2>/dev/null || git log --oneline -10`
 ```
 
 ## Step 0: Pre-flight checks
