@@ -109,7 +109,7 @@ Check:
 - `.gitignore` exists and excludes `.env`, secrets, build artifacts, IDE files
 - `.env.template` exists if the project requires environment configuration
 - No `.env` with real values present
-- `CLAUDE.md` exists and is committed
+- `CLAUDE.md` is gitignored (NOT committed — it is a local AI context file managed separately)
 
 ## Step 3: Generate GitHub issues
 
