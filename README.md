@@ -121,21 +121,7 @@ Works through every open GitHub issue and resolves them:
 4. Fixes each actionable issue with a minimal, scoped change
 5. Runs `/promote` to commit, tag, and release
 
-In non-interactive mode (e.g. GitHub Actions), stops after surfacing complex issues rather
-than waiting for input.
-
-## Configuration
-
-The `weekly-audit` GitHub Actions workflow requires two secrets configured under
-**Settings → Secrets → Actions** in this repository:
-
-| Secret | Description |
-|---|---|
-| `ANTHROPIC_API_KEY` | Anthropic API key for Claude |
-| `GH_AUDIT_TOKEN` | GitHub fine-grained PAT with `issues:write` on all audited repos |
-
-To generate a fine-grained PAT: GitHub → Settings → Developer settings → Personal access tokens →
-Fine-grained tokens → New token. Grant **Issues: Read and write** on each repo to be audited.
+In non-interactive mode, stops after surfacing complex issues rather than waiting for input.
 
 ## Architecture
 
