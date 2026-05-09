@@ -109,7 +109,33 @@ Check:
 - `.gitignore` exists and excludes `.env`, secrets, build artifacts, IDE files
 - `.env.template` exists if the project requires environment configuration
 - No `.env` with real values present
-- `CLAUDE.md` is gitignored (NOT committed — it is a local AI context file managed separately)
+- AI context files (`CLAUDE*.md`, `AGENTS*.md`, `GEMINI*.md`) are gitignored and symlinked
+
+#### AI context file check
+
+Find all AI context files in the project (excluding `.git`):
+
+```bash
+find . -not -path './.git/*' \( -name 'CLAUDE*.md' -o -name 'AGENTS*.md' -o -name 'GEMINI*.md' \) | sort
+```
+
+For each file found, verify two things:
+
+1. **Gitignored** — the pattern appears in `.gitignore`:
+
+   ```bash
+   git check-ignore -v <file>
+   ```
+
+2. **Symlink** — the file is a symbolic link (pointing to the private `ai-context` repo), not a regular tracked file:
+
+   ```bash
+   [ -L "<file>" ] && echo "SYMLINK" || echo "REGULAR FILE — should be a symlink"
+   ```
+
+A finding is raised for any AI context file that is **not** gitignored OR is **not** a symlink. The expected
+pattern is: file is listed in `.gitignore`, stored in the private `ai-context` repo, and symlinked back into
+the project directory so local AI tooling finds it normally (see `extract-ai-context.sh` in that repo).
 
 ## Step 3: Generate GitHub issues
 
