@@ -140,7 +140,32 @@ If no previous tag exists, start at `v1.0.0`.
 
 Calculate `<next-version>` from the current last tag and the rule above.
 
-## Step 5: Tag and release
+## Step 5: Sync plugin manifest (if present)
+
+If `.claude-plugin/plugin.json` exists, update its `version` field to `<next-version>` (no `v`
+prefix — plugin manifests use bare semver like `1.2.3`):
+
+```bash
+node -e "
+const fs = require('fs');
+const f = '.claude-plugin/plugin.json';
+const d = JSON.parse(fs.readFileSync(f, 'utf8'));
+d.version = '<next-version>';
+fs.writeFileSync(f, JSON.stringify(d, null, 2) + '\n');
+"
+```
+
+Then commit and push:
+
+```bash
+git add .claude-plugin/plugin.json
+git commit -m "chore: sync plugin.json version to v<next-version>"
+git push
+```
+
+Skip this step entirely if `.claude-plugin/plugin.json` does not exist.
+
+## Step 6: Tag and release
 
 ```bash
 git tag -a v<next-version> -m "Release v<next-version>"
@@ -150,7 +175,7 @@ gh release create v<next-version> \
   --title "v<next-version>"
 ```
 
-## Step 6: Close resolved issues (main branch only)
+## Step 7: Close resolved issues (main branch only)
 
 Skip this step if a PR was created in Step 3 — GitHub will close the issues automatically when
 the PR merges via the `Closes #N` keywords in the PR body.
@@ -161,7 +186,7 @@ If the promotion was directly on `main` (no PR), close any identified issues now
 gh issue close <N> --comment "Resolved in $(gh release view v<next-version> --json url --jq '.url')"
 ```
 
-## Step 7: Clean up merged feature branch
+## Step 8: Clean up merged feature branch
 
 If a feature branch was merged in Step 3, delete it locally and remotely:
 
@@ -170,7 +195,7 @@ git branch -d <feature-branch>
 git push origin --delete <feature-branch>
 ```
 
-## Step 8: Confirm clean state
+## Step 9: Confirm clean state
 
 ```bash
 git status
